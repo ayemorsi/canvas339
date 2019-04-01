@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+
+	<title>Anas Morsi SI339 Canvas Assignment</title>
+	<style type="text/css">
+
+		canvas{
+			border: 1px solid black;
+		}
+
+	</style>
+
+</head>
+
+<body>
+
+	<canvas>
+		Drawing canvas
+	</canvas>
+
+<script>
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+	canvas.width = window.innerWidth * .8;
+	canvas.height = window.innerHeight * .8;
+	var radius = 5;
+	var color = 'red';
+
+	function Create_Circle(){
+		ctx.beginPath();
+		ctx.fillStyle = color;
+		ctx.arc(x,y,radius,0,2*Math.PI);
+		ctx.fill();
+	}
+	function Change_Color(new_color){
+		console.log("Color selected: ",new_color);
+		color=new_color;
+	}
+	window.addEventListener('mousemove', function(e) {
+		x = e.pageX;
+		y = e.pageY;
+		Create_Circle();
+	})
+	window.addEventListener('keydown', function(e) {
+		switch(e.key){
+			case "b":
+				console.log("Blue");
+				color="blue";
+				break;
+			case "g":
+				console.log("Green");
+				color="green";
+				break;
+			case "r":
+				console.log("Red");
+				color="red";
+				break;
+			case "y":
+				console.log("Yellow");
+				color="yellow";
+				break;
+
+			case "ArrowUp":
+				console.log("ArrowUp: adjusting radius to: ",radius+1);
+				radius += 1;
+				break;
+
+			case "ArrowDown":
+				console.log("ArrowDown: adjusting radius to: ",radius-1);
+				if(radius>1){
+					radius -=1;
+				}
+				else{
+					console.log("Would adjust to radius of zero; this is not permitted.")
+					console.log("Radial adjustment aborted.")
+				}
+				break;
+				case " ":
+				console.log("Space");
+				ctx.clearRect(0,0,canvas.width, canvas.height);
+				break;
+		}
+	})
+	window.addEventListener('touchmove', function(e) {
+		var tm = e.touches[0];
+		console.log("x:", tm.clientX, " - ", "y:", tm.clientY);
+		x = tm.clientX;
+		y = tm.clientY;
+		drawCircle();
+	})
+	window.addEventListener("orientationchange", function(e) {
+		ctx.clearRect(0, 0, canvas.width, canvas.height);
+}, false);
+</script>
+
+	<div>
+		<input type="color" value="#FFF" onchange="Change_Color(value)">
+		<label for="draw_color">Select a color</label>
+	</div>
+</body>
+
+</html>
